@@ -1,9 +1,8 @@
 use crate::{chunk::ChunkDimensions, lib::*, render::CHUNK_PIPELINE_HANDLE, Tilemap};
-use bevy::render::pipeline::PipelineSpecialization;
 
 /// A component bundle for `Chunk` entities.
 #[derive(Bundle)]
-pub(crate) struct ChunkComponents {
+pub(crate) struct ChunkBundle {
     /// The handle for a TextureAtlas which contains multiple textures.
     pub(crate) texture_atlas: Handle<TextureAtlas>,
     /// The chunk's dimensions which are passed to the renderer.
@@ -23,27 +22,10 @@ pub(crate) struct ChunkComponents {
     pub(crate) global_transform: GlobalTransform,
 }
 
-impl Default for ChunkComponents {
-    fn default() -> ChunkComponents {
-        let pipeline = RenderPipeline::specialized(
-            CHUNK_PIPELINE_HANDLE,
-            PipelineSpecialization {
-                dynamic_bindings: vec![
-                    // Transform
-                    DynamicBinding {
-                        bind_group: 2,
-                        binding: 0,
-                    },
-                    // Chunk
-                    DynamicBinding {
-                        bind_group: 2,
-                        binding: 1,
-                    },
-                ],
-                ..Default::default()
-            },
-        );
-        ChunkComponents {
+impl Default for ChunkBundle {
+    fn default() -> ChunkBundle {
+        let pipeline = RenderPipeline::new(CHUNK_PIPELINE_HANDLE);
+        ChunkBundle {
             texture_atlas: Default::default(),
             chunk_dimensions: Default::default(),
             mesh: Default::default(),
@@ -61,7 +43,7 @@ impl Default for ChunkComponents {
 
 /// A component bundle for `Tilemap` entities.
 #[derive(Debug, Bundle)]
-pub struct TilemapComponents {
+pub struct TilemapBundle {
     /// A `Tilemap` which maintains chunks and its tiles.
     pub tilemap: Tilemap,
     /// The transform location in a space for a component.

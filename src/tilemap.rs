@@ -1,7 +1,7 @@
 use crate::{
     chunk::{Chunk, LayerKind},
     dimension::{Dimension2, DimensionError},
-    entity::ChunkComponents,
+    entity::ChunkBundle,
     lib::*,
     mesh::ChunkMesh,
     point::{Point2, Point3},
@@ -1283,7 +1283,7 @@ impl Tilemap {
 /// 1. Remove chunks
 #[inline(always)]
 pub fn map_system(
-    mut commands: Commands,
+    commands: &mut Commands,
     mut chunks: ResMut<Assets<Chunk>>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut query: Query<(Entity, &mut Tilemap)>,
@@ -1389,8 +1389,8 @@ pub fn map_system(
                     } else {
                         continue;
                     };
-                mesh.set_attribute(ChunkMesh::ATTRIBUTE_TILE_INDEX, indexes.into());
-                mesh.set_attribute(ChunkMesh::ATTRIBUTE_TILE_COLOR, colors.into());
+                mesh.set_attribute(ChunkMesh::ATTRIBUTE_TILE_INDEX, indexes);
+                mesh.set_attribute(ChunkMesh::ATTRIBUTE_TILE_COLOR, colors);
                 let mesh_handle = meshes.add(mesh);
                 chunk.set_mesh(z, mesh_handle.clone());
 
@@ -1404,7 +1404,7 @@ pub fn map_system(
                     z as f32,
                 );
                 let entity = commands
-                    .spawn(ChunkComponents {
+                    .spawn(ChunkBundle {
                         texture_atlas: map.texture_atlas().clone_weak(),
                         chunk_dimensions: map.chunk_dimensions.into(),
                         mesh: mesh_handle.clone_weak(),

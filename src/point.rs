@@ -64,8 +64,8 @@ macro_rules! point2_glam_impl {
         impl From<$vec> for Point2 {
             fn from(vec: $vec) -> Point2 {
                 Point2 {
-                    x: vec.x() as i32,
-                    y: vec.y() as i32,
+                    x: vec.x as i32,
+                    y: vec.y as i32,
                 }
             }
         }
@@ -73,8 +73,8 @@ macro_rules! point2_glam_impl {
         impl From<&$vec> for Point2 {
             fn from(vec: &$vec) -> Point2 {
                 Point2 {
-                    x: vec.x() as i32,
-                    y: vec.y() as i32,
+                    x: vec.x as i32,
+                    y: vec.y as i32,
                 }
             }
         }
@@ -347,9 +347,9 @@ macro_rules! point3_glam_impl {
         impl From<$vec> for Point3 {
             fn from(vec: $vec) -> Point3 {
                 Point3 {
-                    x: vec.x() as i32,
-                    y: vec.y() as i32,
-                    z: vec.z() as i32,
+                    x: vec.x as i32,
+                    y: vec.y as i32,
+                    z: vec.z as i32,
                 }
             }
         }
@@ -357,9 +357,9 @@ macro_rules! point3_glam_impl {
         impl From<&$vec> for Point3 {
             fn from(vec: &$vec) -> Point3 {
                 Point3 {
-                    x: vec.x() as i32,
-                    y: vec.y() as i32,
-                    z: vec.z() as i32,
+                    x: vec.x as i32,
+                    y: vec.y as i32,
+                    z: vec.z as i32,
                 }
             }
         }

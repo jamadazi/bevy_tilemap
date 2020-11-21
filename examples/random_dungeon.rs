@@ -1,6 +1,5 @@
 use bevy::{
-    asset::LoadState, ecs::bevy_utils::HashMapExt, prelude::*, sprite::TextureAtlasBuilder,
-    window::WindowMode,
+    asset::LoadState, prelude::*, sprite::TextureAtlasBuilder, utils::AHashExt, window::WindowMode,
 };
 use bevy_tilemap::prelude::*;
 use rand::Rng;
@@ -18,17 +17,17 @@ pub struct MapState {
 }
 
 fn setup(
-    mut commands: Commands,
+    commands: &mut Commands,
     mut tile_sprite_handles: ResMut<TileSpriteHandles>,
     asset_server: Res<AssetServer>,
 ) {
     tile_sprite_handles.handles = asset_server.load_folder("textures").unwrap();
 
-    commands.spawn(Camera2dComponents::default());
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn load(
-    mut commands: Commands,
+    commands: &mut Commands,
     mut sprite_handles: ResMut<TileSpriteHandles>,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     mut textures: ResMut<Assets<Texture>>,
@@ -60,7 +59,7 @@ fn load(
             .build()
             .unwrap();
 
-        let tilemap_components = TilemapComponents {
+        let tilemap_components = TilemapBundle {
             tilemap,
             transform: Default::default(),
             global_transform: Default::default(),
@@ -176,8 +175,8 @@ fn main() {
         .init_resource::<MapState>()
         .add_plugins(DefaultPlugins)
         .add_plugin(ChunkTilesPlugin::default())
-        .add_startup_system(setup.system())
-        .add_system(load.system())
-        .add_system(build_random_dungeon.system())
+        .add_startup_system(setup)
+        .add_system(load)
+        .add_system(build_random_dungeon)
         .run()
 }

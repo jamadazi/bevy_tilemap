@@ -164,7 +164,7 @@ impl Plugin for ChunkTilesPlugin {
     fn build(&self, app: &mut AppBuilder) {
         app.add_asset::<Tilemap>()
             .add_asset::<Chunk>()
-            .add_system_to_stage("post_update", crate::tilemap::map_system.system());
+            .add_system_to_stage("post_update", crate::tilemap::map_system);
 
         let resources = app.resources_mut();
         let mut render_graph = resources
@@ -191,7 +191,7 @@ mod lib {
         bevy_app::{AppBuilder, Events, Plugin},
         bevy_asset::{AddAsset, Assets, Handle, HandleId},
         bevy_core::Byteable,
-        bevy_ecs::{Bundle, Commands, Entity, IntoQuerySystem, Query, ResMut, Resources},
+        bevy_ecs::{Bundle, Commands, Entity, Query, ResMut, Resources},
         bevy_math::{Vec2, Vec3},
         bevy_render::{
             color::Color,
@@ -199,7 +199,7 @@ mod lib {
             mesh::{Indices, Mesh},
             pipeline::{
                 BlendDescriptor, BlendFactor, BlendOperation, ColorStateDescriptor, ColorWrite,
-                CompareFunction, CullMode, DepthStencilStateDescriptor, DynamicBinding, FrontFace,
+                CompareFunction, CullMode, DepthStencilStateDescriptor, FrontFace,
                 PipelineDescriptor, RasterizationStateDescriptor, RenderPipeline, RenderPipelines,
                 StencilStateDescriptor, StencilStateFaceDescriptor,
             },
@@ -227,7 +227,6 @@ mod lib {
     pub(crate) use ::serde::{Deserialize, Serialize};
 
     pub(crate) use ::std::{
-        self,
         boxed::Box,
         clone::Clone,
         cmp::Ord,
@@ -236,7 +235,7 @@ mod lib {
         error::Error,
         fmt::{Debug, Display, Formatter, Result as FmtResult},
         iter::{Extend, IntoIterator, Iterator},
-        ops::{Add, AddAssign, Div, DivAssign, FnMut, FnOnce, Mul, MulAssign, Neg, Sub, SubAssign},
+        ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
         option::Option::{self, *},
         result::Result::{self, *},
         vec::Vec,
